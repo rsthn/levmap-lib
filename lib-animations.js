@@ -89,7 +89,7 @@ const LibAnimations = module.exports = Class.extend
 **	Loads information of animations from the given Object.
 **
 **	The input must be of the following form:
-**	[ index:INT, defaultSequence:INT, name:INT, sequences:ARRAY[ name:INT, rate:FLOAT, width:FLOAT, height:FLOAT, frames:ARRAY[ duration:INT, resource:INT ] ] ]
+**	[ index:INT, defaultSequence:INT, name:INT, sequences:ARRAY[ name:INT, loop:INT, rate:FLOAT, width:FLOAT, height:FLOAT, frames:ARRAY[ duration:INT, resource:INT ] ] ]
 */
 LibAnimations.loadFrom = function (input, ss, layout)
 {

@@ -97,9 +97,9 @@ module.exports = Class.extend
 		let texture = null;
 
 		if (this.type == 1) // Tile
-			texture = layout.textures.getTexture(this.resource);
+			texture = layout.textures.getDrawable(this.resource);
 		else if (this.type == 2) // Animation
-			texture = layout.animations.getAnimation(this.resource).getTexture();
+			texture = layout.animations.getAnimation(this.resource).getDrawable();
 		else
 			throw new Error ("ElementDef: Unknown type of element detected.");
 

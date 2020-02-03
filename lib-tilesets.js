@@ -106,7 +106,7 @@ LibTileSets.loadFrom = function (input, ss, layout)
 
 		for (let j of i[1])
 		{
-			tileset.tiles.push(ss.getTexture(j[2]));
+			tileset.tiles.push(ss.getDrawable(j[2]));
 		}
 
 		output.tilesets.push(tileset);

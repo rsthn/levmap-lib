@@ -181,6 +181,9 @@ const AnimationTexture = Class.extend
 
 	use: function (seqName, force)
 	{
+		if (typeof(seqName) == 'string')
+			seqName = this.anim.strings.indexOf(seqName);
+
 		var seq = this.seq;
 
 		if (seq.name == seqName && force !== true)
@@ -234,7 +237,7 @@ const AnimationSequence = Class.extend
 	height: 0,
 
 	frames: null,
-	loop: true,
+	loop: 1,
 	rate: 0,
 
 	/**
@@ -291,32 +294,33 @@ const AnimationSequence = Class.extend
 		if (Rin.typeOf(input) != 'array')
 			throw new Error("AnimationSequence: Expected input to be an ARRAY.");
 
-		if (input.length < 5)
-			throw new Error("AnimationSequence: Expected input to have 5 elements.");
+		if (input.length < 6)
+			throw new Error("AnimationSequence: Expected input to have 6 elements.");
 
 		this.name = input[0];
 		this.rate = input[1];
-		this.width = input[2]*ss.scale;
-		this.height = input[3]*ss.scale;
+		this.loop = input[2];
+		this.width = input[3]*ss.scale;
+		this.height = input[4]*ss.scale;
 
-		let frames = input[4];
+		let frames = input[5];
 
 		if (Rin.typeOf(frames) != 'array')
-			throw new Error("AnimationSequence: Expected input[4] to be an ARRAY.");
+			throw new Error("AnimationSequence: Expected input[5] to be an ARRAY.");
 
 		for (let frame of frames)
 		{
 			if (Rin.typeOf(frame) != 'array')
-				throw new Error("AnimationSequence: Expected input[4][i] to be an ARRAY.");
+				throw new Error("AnimationSequence: Expected input[5][i] to be an ARRAY.");
 
 			if (frame.length != 2)
-				throw new Error("AnimationSequence: Expected input[4][i] to have 2 elements.");
+				throw new Error("AnimationSequence: Expected input[5][i] to have 2 elements.");
 
 			let duration = frame[0];
 			let resource = frame[1];
 
 			while (duration-- > 0)
-				this.frames.push(ss.getTexture(resource));
+				this.frames.push(ss.getDrawable(resource));
 		}
 
 		return this;
@@ -348,7 +352,6 @@ const Animation = module.exports = Class.extend
 	*/
 	__dtor: function()
 	{
-		dispose(this.sequenceByName);
 	},
 
 	/**
@@ -377,11 +380,19 @@ const Animation = module.exports = Class.extend
 	},
 
 	/**
-	**	Returns an animation sequence given its name.
+	**	Returns an animation sequence given its integer name.
 	*/
 	getSequence: function (sequenceName)
 	{
 		return this.sequenceByName[sequenceName];
+	},
+
+	/**
+	**	Returns an animation sequence given its string name.
+	*/
+	getSequenceByName: function (name)
+	{
+		return this.sequenceByName[this.strings.indexOf(name)];
 	},
 
 	/**
@@ -433,7 +444,7 @@ const Animation = module.exports = Class.extend
 	/**
 	**	Returns a texture for the specified animation sequence (or default if none specified).
 	*/
-	getTexture: function (seqName)
+	getDrawable: function (seqName)
 	{
 		return new AnimationTexture (this, this.getSequence(seqName ? seqName : this.defaultSequence), this.rate);
 	},
@@ -441,9 +452,9 @@ const Animation = module.exports = Class.extend
 	/**
 	**	Returns a texture for the specified animation sequence name (integer/string).
 	*/
-	getTextureByName: function (name)
+	getDrawableByName: function (name)
 	{
-		return this.getTexture(typeof(name) == 'string' ? this.strings.indexOf(name) : name);
+		return this.getDrawable(typeof(name) == 'string' ? this.strings.indexOf(name) : name);
 	},
 
 	/**

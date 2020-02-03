@@ -69,7 +69,7 @@ module.exports = Class.extend
 		return this.numTiles;
 	},
 
-	getTexture: function (tileIndex)
+	getDrawable: function (tileIndex)
 	{
 		if (!(tileIndex in this.drawableCache))
 			return null;

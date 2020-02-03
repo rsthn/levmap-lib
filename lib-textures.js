@@ -58,11 +58,11 @@ const LibTextures = module.exports = Class.extend
 	},
 
 	/**
-	**	Returns the texture of a tile at the specified index.
+	**	Returns the drawable of a tile at the specified index.
 	*/
-	getTexture: function (index)
+	getDrawable: function (index)
 	{
-		return this.ss.getTexture(index);
+		return this.ss.getDrawable(index);
 	},
 
 	/**
