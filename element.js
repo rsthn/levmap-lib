@@ -14,7 +14,7 @@
 **	USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-const { DisplayElement, QuadTreeItem } = require('@rsthn/cherry');
+const { System, DisplayElement, QuadTreeItem } = require('@rsthn/cherry');
 
 
 /**
@@ -117,10 +117,20 @@ module.exports = DisplayElement.extend
 		if (this.texture != null)
 			this.texture.draw (g, this.bounds.x1, this.bounds.y1);
 
-		if (this.debug)
-		{
+		if (this.debug) {
 			g.fillStyle("rgba(255,255,255,0.25)");
 			g.fillRect(this.bounds.x1, this.bounds.y1, this.bounds.width(), this.bounds.height());
+		}
+
+		if (this.type == 0)
+		{
+			if (this.fragments != null)
+			{
+				g.fillStyle("rgba(255,0,0,0.25)");
+
+				for (let i = this.fragments.top; i; i = i.next)
+					g.fillRect (i.value.bounds.x1, i.value.bounds.y1, i.value.bounds.width(), i.value.bounds.height());
+			}
 		}
 	}
 });

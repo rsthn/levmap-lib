@@ -110,7 +110,7 @@ module.exports = Class.extend
 		let height = texture.height;
 		let depth = 1.0;
 
-		let elem = new Element (0, width, height, texture);
+		let elem = new Element (1, width, height, texture);
 
 		elem.resource = this.resource;
 		elem.setElementDef (this);

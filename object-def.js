@@ -15,6 +15,7 @@
 */
 
 const { Rin, Class } = require('@rsthn/rin');
+const { DisplayElement } = require('@rsthn/cherry');
 
 const CollisionGroup = require('./collision-group');
 const ElementDef = require('./element-def');
@@ -132,10 +133,10 @@ module.exports = Class.extend
 			if (group != 0 && collisionGroup.name != group)
 				continue;
 
-			let e = new Element (0, width, height);
+			let e = new Element (0, this.width, this.height);
 
 			e.setFlags (DisplayElement.FLAG_HOLLOW);
-			e.translate (0.5*width, 0.5*height, 0);
+			e.translate (0.5*this.width, 0.5*this.height, 0);
 
 			e.group = collisionGroup.name;
 			e.setLayer (collisionLayer);
@@ -143,10 +144,11 @@ module.exports = Class.extend
 			let dx = -0.5*this.width;
 			let dy = -0.5*this.height;
 
-			for (let j in collisionGroup.fragments)
-				e.addFragment (dx + j.bounds.x1 + 0.5*j.bounds.width(), dy + j.bounds.y1 + 0.5*j.bounds.height(), 0, j.bounds.width(), j.bounds.height(), 1).setTag(j);
+			for (let j of collisionGroup.fragments)
+				e.addFragment (dx + j.bounds.x1 + 0.5*j.bounds.width(), dy + j.bounds.y1 + 0.5*j.bounds.height(), j.bounds.width(), j.bounds.height()).setTag(j);
 
 			obj.addCollisionElement (e);
+
 		}
 
 		obj.translate (x, y, 0);
