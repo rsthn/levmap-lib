@@ -52,11 +52,18 @@ module.exports = Class.extend
 		this.fixed = false;
 	},
 
+	/*
+	**	Ensure to destroy all related elements.
+	*/
 	__dtor: function()
 	{
-		//delete elements;
-		//delete collisionElements;
-		//delete dir;
+		for (let i of this.elements)
+			dispose(i);
+
+		for (let i of this.collisionElements)
+			dispose(i);
+
+		dispose(this.dir);
 	},
 
 	setPosition: function (x, y)

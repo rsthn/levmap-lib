@@ -115,7 +115,7 @@ const AnimationTexture = Class.extend
 		{
 			if (!this.paused)
 			{
-				this.time += this.frameNumber == System.frameNumber ? 0 : System.dt;
+				this.time += this.frameNumber == System.frameNumber ? 0 : System.frameDeltaMillis;
 				this.frameNumber = System.frameNumber;
 			}
 
@@ -133,7 +133,7 @@ const AnimationTexture = Class.extend
 
 		if (!this.paused)
 		{
-			this.time += this.frameNumber == System.frameNumber ? 0 : System.dt;
+			this.time += this.frameNumber == System.frameNumber ? 0 : System.frameDeltaMillis;
 			this.frameNumber = System.frameNumber;
 		}
 
@@ -167,7 +167,7 @@ const AnimationTexture = Class.extend
 
 			if (this.onFrameCallback)
 			{
-				if (this.onFrameCallback(frameIndex, this.seq.frames.length, this.onFrameArg) === false)
+				if (this.onFrameCallback(frameIndex, this.seq.frames.length-1, this.onFrameArg) === false)
 					this.onFrameCallback = null;
 			}
 		}

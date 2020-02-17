@@ -50,13 +50,6 @@ module.exports = DisplayElement.extend
 	},
 
 	/**
-	**	Destructor.
-	*/
-	__dtor: function()
-	{
-	},
-
-	/**
 	**	Returns the texture of the element.
 	*/
 	getTexture: function()
