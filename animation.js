@@ -42,6 +42,9 @@ const AnimationTexture = Class.extend
 	onFrameCallback: null,
 	onFrameArg: null,
 
+	offsX: 0,
+	offsY: 0,
+
 	__ctor: function (anim, seq, rate)
 	{
 		this.anim = anim;
@@ -50,6 +53,8 @@ const AnimationTexture = Class.extend
 		this.seq = seq;
 		this.width = seq.width;
 		this.height = seq.height;
+		this.offsX = seq.offsX;
+		this.offsY = seq.offsY;
 
 		this.rate = rate;
 		this.setRate (this.seq.rate || this.rate);
@@ -125,11 +130,11 @@ const AnimationTexture = Class.extend
 
 		if (this.seq_i == this.seq.frames.length)
 		{
-			if (g != null) this.seq.frames[this.seq_i-1].draw(g, x, y);
+			if (g != null) this.seq.frames[this.seq_i-1].draw(g, x + this.offsX, y + this.offsY);
 			return;
 		}
 
-		if (g != null) this.seq.frames[this.seq_i].draw(g, x, y);
+		if (g != null) this.seq.frames[this.seq_i].draw(g, x + this.offsX, y + this.offsY);
 
 		if (!this.paused)
 		{
@@ -192,6 +197,9 @@ const AnimationTexture = Class.extend
 		this.seq = this.anim.getSequence(seqName);
 		this.setRate (this.seq.rate || this.rate);
 
+		this.offsX = this.seq.offsX;
+		this.offsY = this.seq.offsY;
+
 		this.seq_i = 0;
 		this.time = 0;
 
@@ -238,6 +246,7 @@ const AnimationSequence = Class.extend
 
 	frames: null,
 	loop: 1,
+	offsX: 0, offsY: 0,
 	rate: 0,
 
 	/**
@@ -300,13 +309,15 @@ const AnimationSequence = Class.extend
 		this.name = input[0];
 		this.rate = input[1];
 		this.loop = input[2];
-		this.width = input[3]*ss.scale;
-		this.height = input[4]*ss.scale;
+		this.offsX = input[3];
+		this.offsY = input[4];
+		this.width = input[5]*ss.scale;
+		this.height = input[6]*ss.scale;
 
-		let frames = input[5];
+		let frames = input[7];
 
 		if (Rin.typeOf(frames) != 'array')
-			throw new Error("AnimationSequence: Expected input[5] to be an ARRAY.");
+			throw new Error("AnimationSequence: Expected input[7] to be an ARRAY.");
 
 		for (let frame of frames)
 		{
